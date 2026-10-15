@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -33,6 +35,14 @@ public class Usuario {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = true;
 
+    @Embedded
+    private Endereco endereco;
 
+    @Column(name = "data_criacao", nullable = false)
+    private LocalDateTime dataCriacao;
 
+    @PrePersist
+    public void OnCreate() {
+        this.dataCriacao = LocalDateTime.now();
+    }
 }
