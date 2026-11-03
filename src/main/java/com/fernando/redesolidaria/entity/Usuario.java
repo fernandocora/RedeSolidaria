@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Getter
 @Setter
@@ -42,7 +43,7 @@ public class Usuario {
     private LocalDateTime dataCriacao;
 
     @PrePersist
-    public void OnCreate() {
-        this.dataCriacao = LocalDateTime.now();
+    public void onCreate() {
+        this.dataCriacao = LocalDateTime.now(ZoneOffset.UTC);
     }
 }

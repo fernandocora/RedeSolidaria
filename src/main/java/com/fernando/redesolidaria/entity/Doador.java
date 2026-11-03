@@ -3,10 +3,8 @@ package com.fernando.redesolidaria.entity;
 import com.fernando.redesolidaria.enums.TipoDoador;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
 @Getter
 @Setter
 @Entity
