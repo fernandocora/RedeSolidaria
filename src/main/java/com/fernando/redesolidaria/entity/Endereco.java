@@ -18,10 +18,10 @@ public class Endereco {
     @Column(name = "bairro", length = 80)
     private String bairro;
 
-    @Column(name = "cidade", nullable = false, length = 80)
+    @Column(name = "cidade", length = 80)
     private String cidade;
 
-    @Column(name = "uf", nullable = false, length = 2)
+    @Column(name = "uf", length = 2)
     private String uf;
 
     @Column(name = "cep", length = 8)

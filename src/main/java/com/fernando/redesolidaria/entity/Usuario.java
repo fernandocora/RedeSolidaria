@@ -2,6 +2,7 @@ package com.fernando.redesolidaria.entity;
 
 import com.fernando.redesolidaria.enums.PapelUsuario;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +10,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Getter
-@Setter
 @Entity
+@Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
+    protected Usuario(PapelUsuario papelUsuario) {
+        this.papel = papelUsuario;
+    }
+
+    protected Usuario() {
+
+    }
+
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,6 +40,7 @@ public class Usuario {
     @Column(name = "telefone", nullable = true, length = 20)
     private String telefone;
 
+    @Setter(AccessLevel.NONE)
     @Enumerated(EnumType.STRING)
     @Column(name = "papel", nullable = false, length = 20)
     private PapelUsuario papel;
@@ -39,11 +51,23 @@ public class Usuario {
     @Embedded
     private Endereco endereco;
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao;
 
     @PrePersist
-    public void onCreate() {
+    protected void onCreate() {
         this.dataCriacao = LocalDateTime.now(ZoneOffset.UTC);
+    }
+
+    public static Usuario criarAdmin(String nome, String email, String senhaHash) {
+        Usuario admin = new Usuario(PapelUsuario.ADMIN);
+
+        admin.nome = nome;
+        // espera um email normalizado
+        admin.email = email;
+        admin.senhaHash = senhaHash;
+
+        return admin;
     }
 }
