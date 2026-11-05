@@ -21,19 +21,22 @@ public class AdminInitializer implements CommandLineRunner {
     private final AdminProperties adminProperties;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (usuarioRepository.existsByPapel(PapelUsuario.ADMIN)) {
             log.info("Já existe um administrador cadastrado. Inicialização ignorada.");
             return;
         }
 
-        if (adminProperties.email().isBlank() || adminProperties.password().isBlank()) {
-            throw new IllegalArgumentException("Credenciais Inválidas.");
+        if (adminProperties.email().isBlank()) {
+            throw new IllegalStateException("ADMIN_EMAIL não definida");
+        }
+
+        if (adminProperties.password().isBlank()) {
+            throw new IllegalStateException("ADMIN_PASSWORD não definida");
         }
 
         if (adminProperties.password().length() < 12) {
-            log.info("Senha fraca");
-            return;
+            throw new IllegalStateException("ADMIN_PASSWORD deve ter ao menos 12 caracteres");
         }
 
         String email = adminProperties.email().trim().toLowerCase(Locale.ROOT);
@@ -44,8 +47,7 @@ public class AdminInitializer implements CommandLineRunner {
 
         String senhaHash = passwordEncoder.encode(adminProperties.password());
 
-        Usuario.criarAdmin(adminProperties.nome(), email, senhaHash);
-
-        log.info("ADMIN criado com sucesso " + email);
+        usuarioRepository.save(Usuario.criarAdmin(adminProperties.nome(), email, senhaHash));
+        log.info("ADMIN criado com sucesso: {}", email);
     }
 }
