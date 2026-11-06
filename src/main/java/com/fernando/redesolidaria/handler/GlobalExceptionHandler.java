@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErroResponse> tratarAcessoNegadoSecurity(RuntimeException ex, HttpServletRequest request){
+    public ResponseEntity<ErroResponse> tratarAcessoNegadoSecurity(RuntimeException ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI());
     }
 
