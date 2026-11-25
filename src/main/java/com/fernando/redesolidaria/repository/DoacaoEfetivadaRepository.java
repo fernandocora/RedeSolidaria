@@ -17,14 +17,14 @@ public interface DoacaoEfetivadaRepository extends JpaRepository<DoacaoEfetivada
 
     boolean existsBySolicitacaoId(Long solicitacaoId);
 
-    @EntityGraph(attributePaths = {"item", "doador", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "doador", "beneficiario"})
     Page<DoacaoEfetivada> findByBeneficiarioId(Long beneficiarioId, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"item", "doador", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "doador", "beneficiario"})
     Page<DoacaoEfetivada> findByDoadorId(Long doadorId, Pageable pageable);
 
     // intervalo meio-aberto [inicio, fim)
-    @EntityGraph(attributePaths = {"item", "doador", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "doador", "beneficiario"})
     @Query("""
             select d from DoacaoEfetivada d
             where d.dataEntrega >= :inicio and d.dataEntrega < :fim

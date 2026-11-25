@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
 
-    @EntityGraph(attributePaths = {"item", "item.doador", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "itemDoacao.doador", "beneficiario"})
     Optional<Solicitacao> findDetalhadoById(Long id);
 
     // R5: já existe solicitação ativa deste beneficiário para este item?
@@ -25,7 +25,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     long countByBeneficiarioIdAndStatusIn(Long beneficiarioId, Collection<SolicitacaoStatus> status);
 
     // "minhas solicitações" (status opcional)
-    @EntityGraph(attributePaths = {"item", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "beneficiario"})
     @Query("""
             select s from Solicitacao s
             where s.beneficiario.id = :beneficiarioId
@@ -36,7 +36,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
                                            Pageable pageable);
 
     // solicitações recebidas pelo doador, sobre os itens dele (status opcional)
-    @EntityGraph(attributePaths = {"item", "beneficiario"})
+    @EntityGraph(attributePaths = {"itemDoacao", "beneficiario"})
     @Query("""
             select s from Solicitacao s
             where s.item.doador.id = :doadorId

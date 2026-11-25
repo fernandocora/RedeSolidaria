@@ -32,7 +32,7 @@ public interface ItemDoacaoRepository extends JpaRepository<ItemDoacao, Long>,
     // sobrescreve o método da Specification só para acrescentar o EntityGraph
     @Override
     @EntityGraph(attributePaths = {"categoria", "doador"})
-    Page<ItemDoacao> findAll(Specification<ItemDoacao> spec, Pageable pageable);
+    Page<ItemDoacao> findAll(Specification<ItemDoacao> specification, Pageable pageable);
 
     // relatório: itens parados (sem nenhuma solicitação) cadastrados antes de "limite"
     @Query("""
