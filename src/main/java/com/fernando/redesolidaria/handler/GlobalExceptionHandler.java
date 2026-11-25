@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -36,10 +36,10 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<ErroResponse> buildErrorResponse(HttpStatus status, String message, String path) {
         ErroResponse erroResponse = new ErroResponse(
+                Instant.now(),
+                status.value(),
                 status.getReasonPhrase(),
                 message,
-                status.value(),
-                LocalDateTime.now(),
                 path);
 
         return ResponseEntity.status(status).body(erroResponse);

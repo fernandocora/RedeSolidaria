@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        } catch (JwtException | UsernameNotFoundException ex) {
+        } catch (JwtException | UsernameNotFoundException | IllegalArgumentException ex) {
             // não autentica. quem barra é a regra de autorização
         }
 

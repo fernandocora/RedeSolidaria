@@ -1,12 +1,12 @@
 package com.fernando.redesolidaria.handler;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record ErroResponse(
+        Instant timestamp,
+        int status,
         String error,
         String message,
-        int status,
-        LocalDateTime timestamp,
         String path
 ) {
 }
