@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nome", nullable = false, length = 80)
     private String nome;

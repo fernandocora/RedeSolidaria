@@ -48,7 +48,7 @@ public interface DoacaoEfetivadaRepository extends JpaRepository<DoacaoEfetivada
             select new com.fernando.redesolidaria.dto.response.DoacaoPorCategoriaDTO(
                 c.nome, count(d), sum(d.quantidade))
             from DoacaoEfetivada d
-            join d.item i
+            join d.itemDoacao i
             join i.categoria c
             where d.dataEntrega >= :inicio and d.dataEntrega < :fim
             group by c.nome

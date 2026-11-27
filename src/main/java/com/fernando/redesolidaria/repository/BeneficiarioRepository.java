@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface BeneficiarioRepository extends JpaRepository<Long, Beneficiario> {
+public interface BeneficiarioRepository extends JpaRepository<Beneficiario, Long> {
     @Query("""
             select b from Beneficiario b
             where (:tipo is null or b.tipoBeneficiario = :tipo)

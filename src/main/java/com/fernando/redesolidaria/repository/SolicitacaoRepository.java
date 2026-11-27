@@ -17,11 +17,9 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     @EntityGraph(attributePaths = {"itemDoacao", "itemDoacao.doador", "beneficiario"})
     Optional<Solicitacao> findDetalhadoById(Long id);
 
-    // R5: já existe solicitação ativa deste beneficiário para este item?
     boolean existsByBeneficiarioIdAndItemIdAndStatusIn(Long beneficiarioId, Long itemId,
                                                        Collection<SolicitacaoStatus> status);
 
-    // R6: quantas solicitações ativas o beneficiário tem?
     long countByBeneficiarioIdAndStatusIn(Long beneficiarioId, Collection<SolicitacaoStatus> status);
 
     // "minhas solicitações" (status opcional)
@@ -39,7 +37,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     @EntityGraph(attributePaths = {"itemDoacao", "beneficiario"})
     @Query("""
             select s from Solicitacao s
-            where s.item.doador.id = :doadorId
+            where s.itemDoacao.doador.id = :doadorId
               and (:status is null or s.status = :status)
             """)
     Page<Solicitacao> listarDoDoador(@Param("doadorId") Long doadorId,
@@ -51,7 +49,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
     @Query(value = """
             select s from Solicitacao s
             join fetch s.beneficiario b
-            join fetch s.item i
+            join fetch s.itemDoacao i
             where (:status is null or s.status = :status)
             order by b.nivelPrioridade desc, s.dataSolicitacao asc
             """,
